@@ -16,6 +16,14 @@ function getClient(): Anthropic {
 
 const TUTOR_MODEL = "claude-opus-4-7";
 
+// Sonnet 4.6 + low effort + no thinking is intentionally lower-spec than the
+// Opus 4.7 used by the tutor and the gap diagnosis. The studyplan task is
+// bounded: take 6 gaps → emit ~10-13 sequenced JSON steps under a strict
+// schema. Sonnet handles structured generation at this scale comfortably,
+// and the route's defense-in-depth filter (route.ts) still strips any step
+// referencing a course not in the input. The win is latency: ~38s → ~7-12s.
+const STUDYPLAN_MODEL = "claude-sonnet-4-6";
+
 const TUTOR_SYSTEM_PROMPT = `Você é um tutor especialista da plataforma CEFIS, ajudando profissionais brasileiros de contabilidade, fiscal e tributário a entenderem a Reforma Tributária brasileira: EC 132/2023, Lei Complementar 214/2025, IBS, CBS, IVA Dual, Imposto Seletivo, split payment, regimes diferenciados e específicos, transição (2026–2033), e temas relacionados.
 
 REGRAS OBRIGATÓRIAS:
@@ -302,11 +310,11 @@ Construa um plano de estudos sequenciado em pt-BR, combinando os cursos da CEFIS
 
   const t0 = Date.now();
   const response = await client.messages.create({
-    model: TUTOR_MODEL,
+    model: STUDYPLAN_MODEL,
     max_tokens: 4096,
-    thinking: { type: "adaptive" },
+    thinking: { type: "disabled" },
     output_config: {
-      effort: "high",
+      effort: "low",
       format: { type: "json_schema", schema: STUDYPLAN_SCHEMA },
     },
     system: STUDYPLAN_SYSTEM_PROMPT,

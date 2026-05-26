@@ -1,59 +1,44 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type {
-  DiagnoseResponse,
-  StudentProfile,
-  StudyPlanResponse,
-} from "@/lib/types";
+import type { DiagnoseResponse, StudentProfile } from "@/lib/types";
 
 type Props = {
   profile: StudentProfile;
-  onComplete: (data: {
-    diagnose: DiagnoseResponse;
-    studyplan: StudyPlanResponse;
-  }) => void;
+  onDiagnoseComplete: (diagnose: DiagnoseResponse) => void;
   onError: (message: string) => void;
 };
 
-// Phases of the experience — UI subtitle cycles through these.
-// The phase index is advanced both by API events (true progress) and a soft
-// timer (so the copy doesn't sit static for 25-50s on the same line).
+// Loading screen that holds the user from onboarding-submit through the
+// diagnose call. As soon as diagnose returns, control returns to the parent,
+// which transitions to the results phase and shows the gap cards immediately
+// — the studyplan fetch happens in the background there, not here.
 const MESSAGES = [
-  { stage: "diagnose", text: "Analisando seu perfil…" },
-  { stage: "diagnose", text: "Identificando seus pontos de partida…" },
-  { stage: "diagnose", text: "Selecionando os cursos da CEFIS para você…" },
-  { stage: "studyplan", text: "Identificando suas lacunas de conhecimento…" },
-  { stage: "studyplan", text: "Estruturando o caminho ideal de aprendizado…" },
-  { stage: "studyplan", text: "Calibrando duração e ritmo das aulas…" },
-  { stage: "studyplan", text: "Finalizando seu plano personalizado…" },
+  "Analisando seu perfil…",
+  "Identificando seus pontos de partida…",
+  "Selecionando os cursos da CEFIS para você…",
+  "Quase lá — montando seu diagnóstico…",
 ] as const;
 
-export default function PreparingPlan({ profile, onComplete, onError }: Props) {
+export default function PreparingPlan({
+  profile,
+  onDiagnoseComplete,
+  onError,
+}: Props) {
   const [msgIdx, setMsgIdx] = useState(0);
-  const [stage, setStage] = useState<"diagnose" | "studyplan">("diagnose");
 
   useEffect(() => {
     let cancelled = false;
 
-    // Soft timer that nudges the subtitle forward every ~7s so the user feels
-    // motion even while a single API call is mid-flight.
+    // Cycle the subtitle every ~5s so the screen feels alive.
     const interval = setInterval(() => {
       if (cancelled) return;
-      setMsgIdx((prev) => {
-        const next = Math.min(prev + 1, MESSAGES.length - 1);
-        // Don't jump into studyplan-stage copy while diagnose is still running.
-        const proposedStage = MESSAGES[next].stage;
-        if (proposedStage === "studyplan" && stage === "diagnose") {
-          return prev; // hold on the last diagnose-stage message
-        }
-        return next;
-      });
-    }, 7000);
+      setMsgIdx((prev) => Math.min(prev + 1, MESSAGES.length - 1));
+    }, 5000);
 
     (async () => {
       try {
-        const dRes = await fetch("/api/diagnose", {
+        const res = await fetch("/api/diagnose", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -62,43 +47,13 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
             nivel: profile.nivel,
           }),
         });
-        if (!dRes.ok) {
-          const msg = await dRes.json().catch(() => ({ error: dRes.statusText }));
+        if (!res.ok) {
+          const msg = await res.json().catch(() => ({ error: res.statusText }));
           throw new Error(msg.error ?? "diagnose failed");
         }
-        const diagnose = (await dRes.json()) as DiagnoseResponse;
+        const diagnose = (await res.json()) as DiagnoseResponse;
         if (cancelled) return;
-
-        // Cross the bridge to studyplan stage.
-        setStage("studyplan");
-        setMsgIdx((prev) => {
-          const firstStudyplanIdx = MESSAGES.findIndex(
-            (m) => m.stage === "studyplan",
-          );
-          return Math.max(prev, firstStudyplanIdx);
-        });
-
-        const sRes = await fetch("/api/studyplan", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            gaps: diagnose.gaps,
-            tempo_disponivel: profile.tempo_disponivel,
-          }),
-        });
-        if (!sRes.ok) {
-          const msg = await sRes.json().catch(() => ({ error: sRes.statusText }));
-          throw new Error(msg.error ?? "studyplan failed");
-        }
-        const studyplan = (await sRes.json()) as StudyPlanResponse;
-        if (cancelled) return;
-
-        // Tiny pause so the final "Finalizando…" message can be perceived.
-        setMsgIdx(MESSAGES.length - 1);
-        await new Promise((r) => setTimeout(r, 400));
-        if (cancelled) return;
-
-        onComplete({ diagnose, studyplan });
+        onDiagnoseComplete(diagnose);
       } catch (e) {
         if (cancelled) return;
         const message = e instanceof Error ? e.message : String(e);
@@ -110,8 +65,7 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
       cancelled = true;
       clearInterval(interval);
     };
-    // We deliberately omit setters and onComplete/onError from deps — this
-    // effect kicks the journey off exactly once when the component mounts.
+    // Mount-once effect: parent callbacks are stable references in our flow.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -130,43 +84,18 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
 
         <div className="space-y-3">
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-            Preparando seu plano de estudos
+            Analisando seu perfil
           </h1>
           <p
             key={msgIdx}
             className="text-base sm:text-lg text-neutral-600 animate-fade-in min-h-[3rem]"
           >
-            {MESSAGES[msgIdx].text}
+            {MESSAGES[msgIdx]}
           </p>
         </div>
 
-        {/* Sub-phase indicator */}
-        <div className="flex items-center justify-center gap-3 text-sm text-neutral-500">
-          <div className="flex items-center gap-2">
-            <div
-              className={`w-2 h-2 rounded-full ${
-                stage === "diagnose"
-                  ? "bg-brand-600 animate-pulse"
-                  : "bg-emerald-500"
-              }`}
-            />
-            <span>Diagnóstico</span>
-          </div>
-          <div className="w-6 h-px bg-neutral-300" />
-          <div className="flex items-center gap-2">
-            <div
-              className={`w-2 h-2 rounded-full ${
-                stage === "studyplan"
-                  ? "bg-brand-600 animate-pulse"
-                  : "bg-neutral-300"
-              }`}
-            />
-            <span>Plano</span>
-          </div>
-        </div>
-
         <p className="text-xs text-neutral-400 italic">
-          Pode levar até 1 minuto — vale a espera ✨
+          Seu diagnóstico chega em instantes ✨
         </p>
       </div>
     </div>
