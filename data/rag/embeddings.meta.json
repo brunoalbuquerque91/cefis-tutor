@@ -1,0 +1,10 @@
+{
+  "shape": [
+    2159,
+    384
+  ],
+  "dtype": "float32",
+  "byte_order": "little",
+  "row_major": true,
+  "l2_normalized": true
+}

@@ -34,9 +34,14 @@ yarn-error.log*
 secrets.json
 *.secret
 
+# Transformers.js model cache (downloaded ONNX weights, ~120MB) — never commit
+.cache/
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
