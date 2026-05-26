@@ -90,7 +90,17 @@ export default function StudyPlan({ steps, tempo_disponivel }: Props) {
           if (!res.ok) return [id, null] as const;
           const json = (await res.json()) as EnrichmentResponse;
           if (!json.enriched) return [id, null] as const;
-          const { enriched: _drop, ...data } = json;
+          // Re-pack only the EnrichedCourse fields. Avoid destructuring out
+          // `enriched` into an unused variable (next/lint rejects that).
+          const data: EnrichedCourse = {
+            course_id: json.course_id,
+            averageRating: json.averageRating,
+            duration: json.duration,
+            teacherName: json.teacherName,
+            lessonCount: json.lessonCount,
+            crcActive: json.crcActive,
+            crcCreditHours: json.crcCreditHours,
+          };
           return [id, data] as const;
         } catch {
           return [id, null] as const;
