@@ -92,7 +92,7 @@ export default function Onboarding({ onComplete }: Props) {
           </button>
           <div className="flex-1 h-2 bg-neutral-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-indigo-600 rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-brand-600 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }}
             />
           </div>
@@ -108,7 +108,7 @@ export default function Onboarding({ onComplete }: Props) {
           {step === 0 && (
             <div className="animate-fade-in space-y-6">
               <div className="space-y-3">
-                <p className="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+                <p className="text-sm font-medium text-brand-600 uppercase tracking-wide">
                   Boas-vindas 👋
                 </p>
                 <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
@@ -125,7 +125,7 @@ export default function Onboarding({ onComplete }: Props) {
                 placeholder="Ex.: entender a Reforma Tributária para atender meus clientes"
                 rows={3}
                 autoFocus
-                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent resize-none transition"
+                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent resize-none transition"
               />
             </div>
           )}
@@ -133,7 +133,7 @@ export default function Onboarding({ onComplete }: Props) {
           {step === 1 && (
             <div className="animate-fade-in space-y-6">
               <div className="space-y-3">
-                <p className="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+                <p className="text-sm font-medium text-brand-600 uppercase tracking-wide">
                   Sobre você
                 </p>
                 <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
@@ -149,7 +149,7 @@ export default function Onboarding({ onComplete }: Props) {
                 placeholder="Ex.: contador com 5 anos atuando com pequenas e médias empresas"
                 rows={3}
                 autoFocus
-                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent resize-none transition"
+                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent resize-none transition"
               />
             </div>
           )}
@@ -157,7 +157,7 @@ export default function Onboarding({ onComplete }: Props) {
           {step === 2 && (
             <div className="animate-fade-in space-y-6">
               <div className="space-y-3">
-                <p className="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+                <p className="text-sm font-medium text-brand-600 uppercase tracking-wide">
                   Seu ponto de partida
                 </p>
                 <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
@@ -177,7 +177,7 @@ export default function Onboarding({ onComplete }: Props) {
                       onClick={() => setNivel(opt.value)}
                       className={`w-full p-5 text-left rounded-2xl border-2 transition-all ${
                         active
-                          ? "border-indigo-600 bg-indigo-50 shadow-sm"
+                          ? "border-brand-600 bg-brand-50 shadow-sm"
                           : "border-neutral-200 bg-white hover:border-neutral-300"
                       }`}
                     >
@@ -196,7 +196,7 @@ export default function Onboarding({ onComplete }: Props) {
                         <div
                           className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition ${
                             active
-                              ? "border-indigo-600 bg-indigo-600"
+                              ? "border-brand-600 bg-brand-600"
                               : "border-neutral-300"
                           }`}
                         >
@@ -226,7 +226,7 @@ export default function Onboarding({ onComplete }: Props) {
           {step === 3 && (
             <div className="animate-fade-in space-y-6">
               <div className="space-y-3">
-                <p className="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+                <p className="text-sm font-medium text-brand-600 uppercase tracking-wide">
                   Última pergunta
                 </p>
                 <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
@@ -247,7 +247,7 @@ export default function Onboarding({ onComplete }: Props) {
                     goNext();
                   }
                 }}
-                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition"
+                className="w-full p-4 text-base sm:text-lg border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition"
               />
               <div className="flex flex-wrap gap-2 pt-1">
                 {[
@@ -276,7 +276,7 @@ export default function Onboarding({ onComplete }: Props) {
           <button
             onClick={goNext}
             disabled={!canAdvance}
-            className="w-full py-4 px-6 bg-indigo-600 text-white text-base sm:text-lg font-medium rounded-2xl shadow-sm hover:bg-indigo-700 disabled:bg-neutral-300 disabled:cursor-not-allowed disabled:shadow-none transition-all active:scale-[0.99]"
+            className="w-full py-4 px-6 bg-brand-600 text-white text-base sm:text-lg font-medium rounded-2xl shadow-sm hover:bg-brand-700 disabled:bg-neutral-300 disabled:cursor-not-allowed disabled:shadow-none transition-all active:scale-[0.99]"
           >
             {step === TOTAL_STEPS - 1 ? "Gerar meu plano" : "Continuar"}
           </button>

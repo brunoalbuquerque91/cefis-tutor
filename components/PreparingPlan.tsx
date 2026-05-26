@@ -120,9 +120,9 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
       <div className="max-w-md w-full text-center space-y-10 animate-fade-in">
         {/* Animated rings */}
         <div className="relative w-28 h-28 mx-auto" aria-hidden="true">
-          <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
-          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-indigo-600 animate-spin" />
-          <div className="absolute inset-2 rounded-full border-4 border-transparent border-t-indigo-400 animate-spin [animation-duration:1.6s]" />
+          <div className="absolute inset-0 rounded-full border-4 border-brand-100" />
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-brand-600 animate-spin" />
+          <div className="absolute inset-2 rounded-full border-4 border-transparent border-t-brand-400 animate-spin [animation-duration:1.6s]" />
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-2xl">📚</span>
           </div>
@@ -146,7 +146,7 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
             <div
               className={`w-2 h-2 rounded-full ${
                 stage === "diagnose"
-                  ? "bg-indigo-600 animate-pulse"
+                  ? "bg-brand-600 animate-pulse"
                   : "bg-emerald-500"
               }`}
             />
@@ -157,7 +157,7 @@ export default function PreparingPlan({ profile, onComplete, onError }: Props) {
             <div
               className={`w-2 h-2 rounded-full ${
                 stage === "studyplan"
-                  ? "bg-indigo-600 animate-pulse"
+                  ? "bg-brand-600 animate-pulse"
                   : "bg-neutral-300"
               }`}
             />

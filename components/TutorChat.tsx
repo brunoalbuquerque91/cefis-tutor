@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { AskResponse, Citation } from "@/lib/types";
+import CefisSymbol from "@/components/CefisSymbol";
 
 type Message =
   | { role: "user"; text: string }
@@ -76,8 +77,8 @@ export default function TutorChat() {
       {/* Header */}
       <header className="px-4 sm:px-6 py-4 border-b border-neutral-200 bg-white">
         <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg">
-            🎓
+          <div className="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center">
+            <CefisSymbol className="w-5 h-5" />
           </div>
           <div>
             <div className="font-semibold text-neutral-900">Tutor CEFIS</div>
@@ -141,13 +142,13 @@ export default function TutorChat() {
                 send(input);
               }
             }}
-            className="flex-1 p-3 sm:p-4 text-base border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent resize-none transition max-h-32"
+            className="flex-1 p-3 sm:p-4 text-base border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent resize-none transition max-h-32"
           />
           <button
             type="submit"
             disabled={loading || input.trim().length === 0}
             aria-label="Enviar pergunta"
-            className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 disabled:bg-neutral-300 disabled:cursor-not-allowed transition active:scale-95 flex items-center justify-center"
+            className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-brand-600 text-white rounded-2xl hover:bg-brand-700 disabled:bg-neutral-300 disabled:cursor-not-allowed transition active:scale-95 flex items-center justify-center"
           >
             <svg
               width="20"
@@ -186,7 +187,7 @@ function EmptyState({ onSuggest }: { onSuggest: (q: string) => void }) {
           <button
             key={s}
             onClick={() => onSuggest(s)}
-            className="p-3 sm:p-4 text-left text-sm sm:text-base border border-neutral-200 rounded-2xl bg-white hover:border-indigo-300 hover:bg-indigo-50/40 transition"
+            className="p-3 sm:p-4 text-left text-sm sm:text-base border border-neutral-200 rounded-2xl bg-white hover:border-brand-300 hover:bg-brand-50/40 transition"
           >
             {s}
           </button>
@@ -199,7 +200,7 @@ function EmptyState({ onSuggest }: { onSuggest: (q: string) => void }) {
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex justify-end animate-fade-in">
-      <div className="max-w-[85%] sm:max-w-[75%] px-4 py-3 bg-indigo-600 text-white rounded-2xl rounded-br-md text-sm sm:text-base leading-relaxed shadow-sm whitespace-pre-wrap break-words">
+      <div className="max-w-[85%] sm:max-w-[75%] px-4 py-3 bg-brand-600 text-white rounded-2xl rounded-br-md text-sm sm:text-base leading-relaxed shadow-sm whitespace-pre-wrap break-words">
         {text}
       </div>
     </div>
@@ -211,7 +212,7 @@ function AssistantSkeleton() {
     <div className="flex justify-start animate-fade-in">
       <div className="max-w-[85%] sm:max-w-[80%] px-5 py-4 bg-white border border-neutral-200 rounded-2xl rounded-bl-md space-y-2">
         <div className="flex items-center gap-2 text-sm text-neutral-500">
-          <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
           <span>Consultando as aulas da CEFIS…</span>
         </div>
         <div className="space-y-2 pt-1">
@@ -262,14 +263,14 @@ function AssistantTurn({
 
 function CitationCard({ c }: { c: Citation }) {
   return (
-    <article className="p-4 bg-white border border-neutral-200 rounded-2xl hover:border-indigo-300 hover:shadow-sm transition">
+    <article className="p-4 bg-white border border-neutral-200 rounded-2xl hover:border-brand-300 hover:shadow-sm transition">
       <div className="flex items-start gap-3">
-        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold">
+        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-xs font-semibold">
           {c.id}
         </div>
         <div className="flex-1 min-w-0 space-y-1.5">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-semibold rounded bg-indigo-600 text-white tracking-wide">
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-semibold rounded bg-brand-600 text-white tracking-wide">
               CEFIS
             </span>
             <span className="text-[11px] text-neutral-400 font-mono">
@@ -452,7 +453,7 @@ function renderInline(
           key={`${baseKey}-c-${k++}`}
           className={`inline-flex items-center justify-center min-w-[1.4em] h-[1.4em] mx-0.5 px-1 rounded-md text-[10px] font-semibold align-baseline ${
             inRange
-              ? "bg-indigo-100 text-indigo-700"
+              ? "bg-brand-100 text-brand-700"
               : "bg-neutral-100 text-neutral-500"
           }`}
         >

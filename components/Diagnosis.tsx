@@ -31,7 +31,7 @@ export default function Diagnosis({ gaps }: Props) {
   return (
     <section className="space-y-6 animate-fade-in">
       <div className="space-y-3">
-        <p className="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+        <p className="text-sm font-medium text-brand-600 uppercase tracking-wide">
           Diagnóstico personalizado
         </p>
         <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-balance">
@@ -76,7 +76,7 @@ export default function Diagnosis({ gaps }: Props) {
 
                   <div className="pt-1 flex items-start gap-2 text-sm">
                     <svg
-                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-indigo-600"
+                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-brand-600"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"

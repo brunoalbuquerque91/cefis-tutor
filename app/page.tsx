@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Onboarding from "@/components/Onboarding";
 import PreparingPlan from "@/components/PreparingPlan";
 import Diagnosis from "@/components/Diagnosis";
@@ -25,13 +26,23 @@ export default function HomePage() {
   if (phase === "landing") {
     return (
       <main className="min-h-[100dvh] flex items-center justify-center px-6 py-12 bg-neutral-50">
-        <div className="max-w-2xl w-full text-center space-y-8 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-medium uppercase tracking-wide">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
+        <div className="max-w-2xl w-full text-center space-y-7 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-700 text-xs font-medium uppercase tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse" />
             Reforma Tributária · Demo
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-balance">
-            CEFIS — Tutor de Aprendizado com IA
+          <div className="flex justify-center">
+            <Image
+              src="/logos/logo-cefis.svg"
+              alt="CEFIS"
+              width={320}
+              height={110}
+              priority
+              className="h-16 sm:h-20 w-auto"
+            />
+          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-balance">
+            Tutor de Aprendizado com IA
           </h1>
           <p className="text-lg sm:text-xl text-neutral-600 leading-relaxed text-balance max-w-xl mx-auto">
             Tire dúvidas sobre os cursos da CEFIS e receba respostas
@@ -41,7 +52,7 @@ export default function HomePage() {
           <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center items-center">
             <button
               onClick={() => setPhase("onboarding")}
-              className="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white text-base font-medium rounded-2xl shadow-sm hover:bg-indigo-700 transition-all active:scale-[0.99]"
+              className="w-full sm:w-auto px-8 py-4 bg-brand-600 text-white text-base font-medium rounded-2xl shadow-sm hover:bg-brand-700 transition-all active:scale-[0.99]"
             >
               Começar minha jornada
             </button>
@@ -135,21 +146,21 @@ export default function HomePage() {
 
           {/* CTA into chat */}
           <section className="animate-fade-in">
-            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-600 to-indigo-700 text-white">
+            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-brand-900 to-brand-950 text-white">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                 <div className="text-4xl">💬</div>
                 <div className="flex-1 space-y-1">
                   <h3 className="text-xl sm:text-2xl font-semibold tracking-tight">
                     Tem alguma dúvida pontual?
                   </h3>
-                  <p className="text-indigo-100 text-sm sm:text-base">
+                  <p className="text-brand-100 text-sm sm:text-base">
                     Converse com o tutor — respostas com citações reais dos
                     cursos da CEFIS.
                   </p>
                 </div>
                 <button
                   onClick={() => setPhase("chat")}
-                  className="w-full sm:w-auto px-6 py-3 bg-white text-indigo-700 font-medium rounded-2xl hover:bg-indigo-50 transition active:scale-[0.99]"
+                  className="w-full sm:w-auto px-6 py-3 bg-white text-brand-700 font-medium rounded-2xl hover:bg-brand-50 transition active:scale-[0.99]"
                 >
                   Abrir tutor
                 </button>
@@ -218,7 +229,7 @@ export default function HomePage() {
         )}
         <button
           onClick={() => setPhase("landing")}
-          className="px-6 py-3 bg-indigo-600 text-white rounded-2xl"
+          className="px-6 py-3 bg-brand-600 text-white rounded-2xl"
         >
           Voltar ao início
         </button>
